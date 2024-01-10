@@ -1,17 +1,3 @@
-// Partie 1 : Mot de passe
-// Implémentez une fonction qui prend une chaine de caractères en
-// paramètre (un mot de passe) et qui retourne un niveau de sécurité sous
-// la forme d’un entier. 
-// Vous utiliserez les expressions régulières
-// (regex) pour connaitre l’alphabet utilisé (majuscules, minuscules,
-// chiffres, caractères spéciaux). Avec cet taille d’alphabet et la
-// taille du mot de passe vous pouvez calculer la force du mot de passe
-// avec la formule a
-// n où a est le nombre de caractères possibles et n la
-// taille du mot de passe. Cette formule donne le nombre de combinaisons
-// possibles. 
-
-
 // Fonction tester la force d'un mot de passe avec en paramètre le mot de passe 
 document.getElementById('formulaire').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -31,7 +17,7 @@ document.getElementById('formulaire').addEventListener('submit', function (event
     const carateresSpeciauxRegex = /[^a-zA-Z0-9]/; // tout ce qui n'est pas minusmule, majuscule, et nombre
 
     if (motDePasse.match(majusculesRegex)) {
-        tailleDeLalphabet += 26;
+        tailleDeLalphabet += 26; // ajouter 26 pour les 26 lettres de l'alphabet
     }
 
     if (motDePasse.match(minusculesRegex)) {
@@ -43,7 +29,7 @@ document.getElementById('formulaire').addEventListener('submit', function (event
     }
 
     if (motDePasse.match(carateresSpeciauxRegex)) {
-        tailleDeLalphabet += 27;
+        tailleDeLalphabet += 32;
     }
 
     nombreCombinaisonsPossibles = Math.pow(tailleDeLalphabet, longueurMotDePasse)
@@ -53,7 +39,16 @@ document.getElementById('formulaire').addEventListener('submit', function (event
     console.log("Taille de l'alphabet : " + tailleDeLalphabet)
     console.log("Nombre de combinaison possibles : " + nombreCombinaisonsPossibles)
 
+    document.getElementById("possibilites").textContent = nombreCombinaisonsPossibles
 
+    // Comparaison avec une valeur seuil (10^30)
+    if (nombreCombinaisonsPossibles >= Math.pow(20, 30)) {
+        document.getElementById("force").textContent = "Fort";
+    } else if (nombreCombinaisonsPossibles >= Math.pow(10, 20)) {
+        document.getElementById("force").textContent = "Moyen";
+    } else {
+        document.getElementById("force").textContent = "Faible";
+    }
 
 });
 
