@@ -20,7 +20,7 @@ document.getElementById('formulaire').addEventListener('submit', function (event
     const motDePasse = document.getElementById("password").value
     // Initialiser la taille du mot de passe
     let longueurMotDePasse = motDePasse.length
-    // Initialiser la force du mot de passe
+    // Initialiser le nombre de combinaisons possibles du mot de passe
     let nombreCombinaisonsPossibles = 0
     // Initialiser la taille de l'alphabet utilisé
     let tailleDeLalphabet = 0
@@ -28,26 +28,25 @@ document.getElementById('formulaire').addEventListener('submit', function (event
     const majusculesRegex = /[A-Z]/;
     const minusculesRegex = /[a-z]/;
     const nombreRegex = /[0-9]/;
-    const carateresSpeciauxRegex = /[!@#$%^&*()_+-={}|;':",.<>?~]/;
+    const carateresSpeciauxRegex = /[^a-zA-Z0-9]/; // tout ce qui n'est pas minusmule, majuscule, et nombre
 
-    // Tester si le mot de passe contient des Majuscules
-    if (majusculesRegex.test(motDePasse)) {
-        tailleDeLalphabet++;
-    }
-    // Tester si le mot de passe contient des minuscules
-    if (minusculesRegex.test(motDePasse)) {
-        tailleDeLalphabet++;
-    }
-    // Tester si le mot de passe contient des nombre
-    if (nombreRegex.test(motDePasse)) {
-        tailleDeLalphabet++;
-    }
-    // Tester si le mot de passe contient des caractères spéciaux
-    if (carateresSpeciauxRegex.test(motDePasse)) {
-        tailleDeLalphabet++;
+    if (motDePasse.match(majusculesRegex)) {
+        tailleDeLalphabet += 26;
     }
 
-    nombreCombinaisonsPossibles = Math.pow(longueurMotDePasse, tailleDeLalphabet)
+    if (motDePasse.match(minusculesRegex)) {
+        tailleDeLalphabet += 26;
+    }
+
+    if (motDePasse.match(nombreRegex)) {
+        tailleDeLalphabet += 10;
+    }
+
+    if (motDePasse.match(carateresSpeciauxRegex)) {
+        tailleDeLalphabet += 27;
+    }
+
+    nombreCombinaisonsPossibles = Math.pow(tailleDeLalphabet, longueurMotDePasse)
 
     console.log("Mot de passe : " + motDePasse)
     console.log("Longueur du mot de passe : " + longueurMotDePasse)
@@ -57,3 +56,5 @@ document.getElementById('formulaire').addEventListener('submit', function (event
 
 
 });
+
+
